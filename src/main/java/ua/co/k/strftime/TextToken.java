@@ -9,7 +9,7 @@ class TextToken implements Token {
 
     public TextToken(List<Integer> fallback) {
         fallback.add(0, (int) '%');
-        codepoints = fallback;
+        this.codepoints = fallback;
     }
 
     public TextToken() {

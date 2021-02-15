@@ -55,7 +55,20 @@ public class StrftimeFormatter {
         return out.toString();
     }
 
+    static class ParseContext {
+        enum State {
+            TEXT,
+            VALUE
+        }
+        final List<Integer> codepoints;
+        int startOffset = 0;
+        State state = State.TEXT;
+        int valueStaredPosition;
 
+        ParseContext(List<Integer> codepoints) {
+            this.codepoints = codepoints;
+        }
+    }
 
     private Token readNext(ParseContext parseContext) {
         if (parseContext.state == ParseContext.State.TEXT) {

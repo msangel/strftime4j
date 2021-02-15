@@ -6,25 +6,29 @@ import java.util.List;
 
 class ValueToken implements Token {
 
-    /*
--  don't pad a numerical output.
-_  use spaces for padding.
-0  use zeros for padding.
-^  upcase the result string.
-#  change case.
-:  use colons for %z.
-     */
-
     final static List<Integer> flags = new ArrayList<>(6);
+    {
+        flags.add((int) '-'); // -  don't pad a numerical output.
+        flags.add((int) '_'); // _  use spaces for padding.
+        flags.add((int) '0'); // 0  use zeros for padding.
+        flags.add((int) '^'); // ^  upcase the result string.
+        flags.add((int) '#'); // #  change case
+        flags.add((int) ':'); // :  use colons for %z
+    }
+
     private int conversion;
 
-    {
-        flags.add((int) '-');
-        flags.add((int) '_');
-        flags.add((int) '0');
-        flags.add((int) '^');
-        flags.add((int) '#');
-        flags.add((int) ':');
+    enum Parts {
+        // %<flags><width><modifier><conversion>
+        flags,
+        width,
+        modifier,
+        conversion
+    }
+
+    Parts current;
+
+    public ValueToken() {
     }
 
     public static boolean isFlag(int codepoint) {
@@ -56,19 +60,6 @@ _  use spaces for padding.
 
     public void setConversion(int codepoint) {
         conversion = codepoint;
-    }
-
-    enum Parts {
-        // %<flags><width><modifier><conversion>
-        flags,
-        width,
-        modifier,
-        conversion
-    }
-
-    Parts current;
-
-    public ValueToken() {
     }
 
     @Override
