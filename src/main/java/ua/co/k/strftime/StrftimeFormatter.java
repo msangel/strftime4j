@@ -26,11 +26,19 @@ public class StrftimeFormatter {
         this.strict = strict;
     }
 
-    public static StrftimeFormatter ofPattern(String pattern) {
+    public static StrftimeFormatter ofSafePattern(String pattern) {
+        return new StrftimeFormatter(pattern, Locale.getDefault(), false);
+    }
+
+    public static StrftimeFormatter ofSafePattern(String pattern, Locale locale) {
+        return new StrftimeFormatter(pattern, locale, false);
+    }
+
+    public static StrftimeFormatter ofStrictPattern(String pattern) {
         return new StrftimeFormatter(pattern, Locale.getDefault(), true);
     }
 
-    public static StrftimeFormatter ofPattern(String pattern, Locale locale) {
+    public static StrftimeFormatter ofStrictPattern(String pattern, Locale locale) {
         return new StrftimeFormatter(pattern, locale, true);
     }
 
