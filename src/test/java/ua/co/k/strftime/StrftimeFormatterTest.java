@@ -2,38 +2,34 @@ package ua.co.k.strftime;
 
 import org.junit.Test;
 
-import java.util.List;
+import java.time.ZonedDateTime;
 
 import static org.junit.Assert.assertEquals;
+import static ua.co.k.strftime.StrftimeFormatter.ofPattern;
 
 public class StrftimeFormatterTest {
     @Test
     public void testParser() {
-        StrftimeFormatter f = StrftimeFormatter.ofPattern(null);
-        List<Token> tokens = f.parse("asdsdfsdf");
-        String res = f.printStream(tokens);
+        ZonedDateTime t = ZonedDateTime.parse("2021-02-16T23:43:00-02:00");
+        StrftimeFormatter f = ofPattern("asdsdfsdf");
+        String res = f.format(t);
         assertEquals("asdsdfsdf", res);
 
-        tokens = f.parse("Printed on %m/%d/%Y");
-        res = f.printStream(tokens);
-        assertEquals("Printed on <m>/<d>/<Y>", res);
+        res = ofPattern("Printed on %m/%d/%Y").format(t);
+        assertEquals("Printed on 02/16/2021", res);
 
-        tokens = f.parse("");
-        res = f.printStream(tokens);
+        res = ofPattern("").format(t);
         assertEquals("", res);
 
-        tokens = f.parse("%");
-        res = f.printStream(tokens);
+        res = ofPattern("%").format(t);
         assertEquals("%", res);
 
-        tokens = f.parse("%%");
-        res = f.printStream(tokens);
-        assertEquals("<%>", res);
+        res = ofPattern("%%").format(t);
+        assertEquals("%", res);
 
         // %<flags><width><modifier><conversion>
-        tokens = f.parse("%_50E%");
-        res = f.printStream(tokens);
-        assertEquals("<%>", res);
+        res = ofPattern("%_50E%").format(t);
+        assertEquals("%", res);
 
     }
 }

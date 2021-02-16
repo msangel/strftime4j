@@ -13,32 +13,46 @@ public class StrftimeFormatter {
 
     private static final Map<Locale, StrftimeFormatter> localeMapHolder = new HashMap<>();
 
-    private Locale locale;
+    private final Locale locale;
+    private final List<Token> tokens;
+
+    public StrftimeFormatter(String pattern, Locale locale) {
+        this.locale = locale;
+        this.tokens = parse(pattern);
+    }
+
+    StrftimeFormatter(List<Token> tokens, Locale locale) {
+        this.locale = locale;
+        this.tokens = tokens;
+    }
 
     public static StrftimeFormatter ofPattern(String pattern) {
-        return new StrftimeFormatter();
+        return new StrftimeFormatter(pattern, Locale.getDefault());
     }
 
     public static StrftimeFormatter ofPattern(String pattern, Locale locale) {
-        return new StrftimeFormatter();
+        return new StrftimeFormatter(pattern, locale);
     }
 
     public StrftimeFormatter withLocale(Locale locale) {
         if (this.locale.equals(locale)) {
             return this;
         }
-        return new StrftimeFormatter();
+        return new StrftimeFormatter(tokens, locale);
     }
 
-    public String format(TemporalAccessor temporal) {
-        return null;
+
+    public String format(Object obj) {
+        StringBuilder sb = new StringBuilder();
+        formatTo(obj, sb);
+        return sb.toString();
     }
 
-    public void formatTo(TemporalAccessor temporal, Appendable appendable) {
-
+    public void formatTo(Object obj, StringBuilder sb) {
+        tokens.forEach( el -> el.render(obj, sb));
     }
 
-    public List<Token> parse(String in) {
+    private List<Token> parse(String in) {
         List<Integer> codepoints = in.codePoints().boxed().collect(Collectors.toList());
         ParseContext parseContext = new ParseContext(codepoints);
         List<Token> res = new ArrayList<>();
@@ -49,11 +63,6 @@ public class StrftimeFormatter {
         return res;
     }
 
-    public String printStream(List<Token> in) {
-        StringBuilder out = new StringBuilder();
-        in.forEach( el -> el.render(null, out));
-        return out.toString();
-    }
 
     static class ParseContext {
         enum State {

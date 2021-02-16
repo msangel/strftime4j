@@ -1,10 +1,9 @@
 package ua.co.k.strftime;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 class ValueToken implements Token {
 
@@ -12,7 +11,7 @@ class ValueToken implements Token {
 
     final static List<Integer> flags = new ArrayList<>(6);
     private final Locale locale;
-    private DateTimeFormatter dateTimeFormatter;
+    private HybridFormat formatter;
 
     {
         flags.add((int) '-'); // -  don't pad a numerical output.
@@ -36,6 +35,7 @@ class ValueToken implements Token {
     Parts current;
 
     public ValueToken(Locale locale) {
+        Objects.requireNonNull(locale);
         this.locale = locale;
     }
 
@@ -68,12 +68,12 @@ class ValueToken implements Token {
 
     public void applyConversion(int codepoint) {
         conversion = codepoint;
-        this.dateTimeFormatter = factory.getDateTimeFormatter(codepoint, locale);
+        this.formatter = factory.getFormatter(codepoint, locale);
     }
 
     @Override
-    public void render(ZonedDateTime date, StringBuilder out) {
-        dateTimeFormatter.formatTo(date, out);
+    public void render(Object date, StringBuilder out) {
+        formatter.formatTo(date, out);
     }
 
     @Override

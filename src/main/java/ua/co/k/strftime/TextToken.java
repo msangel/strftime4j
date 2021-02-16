@@ -1,6 +1,5 @@
 package ua.co.k.strftime;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,7 @@ class TextToken implements Token {
     }
 
     @Override
-    public void render(ZonedDateTime date, StringBuilder out) {
+    public void render(Object date, StringBuilder out) {
         codepoints.forEach(out::appendCodePoint);
     }
 

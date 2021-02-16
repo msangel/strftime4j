@@ -1,82 +1,69 @@
 package ua.co.k.strftime;
 
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
+import java.time.temporal.ChronoField;
+import java.time.temporal.IsoFields;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
-public class DateTimeFormatterFactory {
+class DateTimeFormatterFactory {
 
     final static Map<Character, Function<Locale, HybridFormat>> translate = new HashMap<>();
     static {
         translate.put('a', locale -> new HybridFormat("EEE", locale));
-//        translate.put('A', locale -> DateTimeFormatter.ofPattern("EEEE", locale));
-//        translate.put('b', locale -> DateTimeFormatter.ofPattern("MMM", locale));
-//        translate.put('B', locale -> DateTimeFormatter.ofPattern("MMMM", locale));
-//        translate.put('c', locale -> DateTimeFormatter.ofPattern("EEE MMM d HH:mm:ss yyyy", locale);
-//
-//        //There's no way to specify the century in SimpleDateFormat.  We don't want to hard-code
-//        //20 since this could be wrong for the pre-2000 files.
-//        //translate.put("C", "20");
-//        translate.put("d","dd");
-//        translate.put("D","MM/dd/yy");
-//        translate.put("e","dd"); //will show as '03' instead of ' 3'
-//        translate.put("F","yyyy-MM-dd");
-//        translate.put("g","yy");
-//        translate.put("G","yyyy");
-//        translate.put("H","HH");
-//        translate.put("h","MMM");
-//        translate.put("I","hh");
-//        translate.put("j","DDD");
-//        translate.put("k","HH"); //will show as '07' instead of ' 7'
-//        translate.put("l","hh"); //will show as '07' instead of ' 7'
-//        translate.put("m","MM");
-//        translate.put("M","mm");
-//        translate.put("n","\n");
-//        translate.put("p","a");
-//        translate.put("P","a");  //will show as pm instead of PM
-//        translate.put("r","hh:mm:ss a");
-//        translate.put("R","HH:mm");
-//        //There's no way to specify this with SimpleDateFormat
-//        //translate.put("s","seconds since epoch");
-//        translate.put("S","ss");
-//        translate.put("t","\t");
-//        translate.put("T","HH:mm:ss");
-//        //There's no way to specify this with SimpleDateFormat
-//        //translate.put("u","day of week ( 1-7 )");
-//
-//        //There's no way to specify this with SimpleDateFormat
-//        //translate.put("U","week in year with first Sunday as first day...");
-//
-//        translate.put("V","ww"); //I'm not sure this is always exactly the same
-//
-//        //There's no way to specify this with SimpleDateFormat
-//        //translate.put("W","week in year with first Monday as first day...");
-//
-//        //There's no way to specify this with SimpleDateFormat
-//        //translate.put("w","E");
-//        translate.put("X","HH:mm:ss");
-//        translate.put("x","MM/dd/yy");
-//        translate.put("y","yy");
-//        translate.put("Y","yyyy");
-//        translate.put("Z","z");
-//        translate.put("z","Z");
-//        translate.put("%","%");
+        translate.put('A', locale -> new HybridFormat("EEEE", locale));
+        translate.put('b', locale -> new HybridFormat("MMM", locale));
+        translate.put('B', locale -> new HybridFormat("MMMM", locale));
+        translate.put('c', locale -> new HybridFormat("EEE MMM d HH:mm:ss yyyy", locale));
+        translate.put('C', CenturyDateFormat::new);
+        translate.put('d', locale -> new HybridFormat("dd", locale));
+        translate.put('D', locale -> new HybridFormat("MM/dd/yy", locale));
+
+        translate.put('e', locale -> new HybridFormat("dd", locale)); //will show as '03' instead of ' 3'
+        translate.put('F', locale -> new HybridFormat("yyyy-MM-dd", locale));
+        translate.put('g', locale -> new HybridFormat("yy", locale));
+        translate.put('G', locale -> new HybridFormat("yyyy", locale));
+        translate.put('h', locale -> new HybridFormat("MMM", locale));
+        translate.put('H', locale -> new HybridFormat("HH", locale));
+        translate.put('I', locale -> new HybridFormat("hh", locale));
+        translate.put('j', locale -> new HybridFormat("DDD", locale));
+        translate.put('k', locale -> new HybridFormat("HH", locale)); //will show as '07' instead of ' 7'
+        translate.put('l', locale -> new HybridFormat("hh", locale)); //will show as '07' instead of ' 7'
+        translate.put('m', locale -> new HybridFormat("MM", locale));
+        translate.put('M', locale -> new HybridFormat("mm", locale));
+        translate.put('n', locale -> new LiteralPattern("\n"));
+        translate.put('p', locale -> new HybridFormat("a", locale));
+        translate.put('P', locale -> new SwitchCaseDateFormatWrapper(new HybridFormat("a", locale), true) );
+        translate.put('r', locale -> new HybridFormat("hh:mm:ss a", locale));
+        translate.put('R', locale -> new HybridFormat("HH:mm", locale));
+        translate.put('s', locale -> new FromTemporalFieldFormat(ChronoField.INSTANT_SECONDS));
+        translate.put('S', locale -> new HybridFormat("ss", locale));
+        translate.put('t', locale -> new LiteralPattern("\t"));
+        translate.put('T', locale -> new HybridFormat("HH:mm:ss", locale));
+        translate.put('u', locale -> new FromTemporalFieldFormat(ChronoField.DAY_OF_WEEK));
+        // week in year with first Sunday as first day
+        translate.put('U', locale -> new FromTemporalFieldFormat(IsoFields.WEEK_OF_WEEK_BASED_YEAR));
+        translate.put('V', locale -> new HybridFormat("ww", locale));
+        // week in year with first Monday as first day
+        translate.put('W', locale -> new FromTemporalFieldFormat(IsoFields.WEEK_OF_WEEK_BASED_YEAR));
+        // ???
+        translate.put('w', locale -> new HybridFormat("E", locale));
+        translate.put('x', locale -> new HybridFormat("MM/dd/yy", locale));
+        translate.put('X', locale -> new HybridFormat("HH:mm:ss", locale));
+        translate.put('y', locale -> new HybridFormat("yy", locale));
+        translate.put('Y', locale -> new HybridFormat("yyyy", locale));
+        translate.put('z', locale -> new HybridFormat("Z", locale));
+        translate.put('Z', locale -> new HybridFormat("z", locale));
+        translate.put('%', locale -> new LiteralPattern("%"));
     }
 
 
-    public DateTimeFormatter getDateTimeFormatter(int strftimePatternCodepoint, Locale locale) {
-        return DateTimeFormatter.ofPattern("");
+    public HybridFormat getFormatter(int strftimePatternCodepoint, Locale locale) {
+        return translate.get((char)strftimePatternCodepoint).apply(locale);
     }
 
     public boolean isKnownConversion(int codepoint) {
-        return false;
+        return true;
     }
 }
