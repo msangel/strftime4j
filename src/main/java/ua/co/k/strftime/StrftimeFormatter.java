@@ -80,7 +80,7 @@ public class StrftimeFormatter {
 
 
     private Token readNextValue(ParseContext parseContext) {
-        ValueToken token = new ValueToken();
+        ValueToken token = new ValueToken(locale);
         List<Integer> fallback = new ArrayList<>();
         // %<flags><width><modifier><conversion>
         token.current = ValueToken.Parts.flags;
@@ -120,7 +120,7 @@ public class StrftimeFormatter {
 
             if (token.current == ValueToken.Parts.conversion) {
                 if (ValueToken.isConversion(codepoint)) {
-                    token.setConversion(codepoint);
+                    token.applyConversion(codepoint);
                     ++parseContext.startOffset;
                     break;
                 }

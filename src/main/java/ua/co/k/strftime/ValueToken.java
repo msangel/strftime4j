@@ -1,12 +1,19 @@
 package ua.co.k.strftime;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 class ValueToken implements Token {
 
+    private static DateTimeFormatterFactory factory = new DateTimeFormatterFactory();
+
     final static List<Integer> flags = new ArrayList<>(6);
+    private final Locale locale;
+    private DateTimeFormatter dateTimeFormatter;
+
     {
         flags.add((int) '-'); // -  don't pad a numerical output.
         flags.add((int) '_'); // _  use spaces for padding.
@@ -28,7 +35,8 @@ class ValueToken implements Token {
 
     Parts current;
 
-    public ValueToken() {
+    public ValueToken(Locale locale) {
+        this.locale = locale;
     }
 
     public static boolean isFlag(int codepoint) {
@@ -47,7 +55,7 @@ class ValueToken implements Token {
     }
 
     public static boolean isConversion(int codepoint) {
-        return true;
+        return factory.isKnownConversion(codepoint);
     }
 
     public void addFlag(int codepoint) {
@@ -58,15 +66,14 @@ class ValueToken implements Token {
 
     }
 
-    public void setConversion(int codepoint) {
+    public void applyConversion(int codepoint) {
         conversion = codepoint;
+        this.dateTimeFormatter = factory.getDateTimeFormatter(codepoint, locale);
     }
 
     @Override
     public void render(ZonedDateTime date, StringBuilder out) {
-        out.appendCodePoint('<');
-        out.appendCodePoint(conversion);
-        out.appendCodePoint('>');
+        dateTimeFormatter.formatTo(date, out);
     }
 
     @Override
