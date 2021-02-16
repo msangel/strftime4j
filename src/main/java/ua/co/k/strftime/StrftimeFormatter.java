@@ -1,7 +1,6 @@
 package ua.co.k.strftime;
 
 
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,34 +10,42 @@ import java.util.stream.Collectors;
 
 public class StrftimeFormatter {
 
-    private static final Map<Locale, StrftimeFormatter> localeMapHolder = new HashMap<>();
-
     private final Locale locale;
     private final List<Token> tokens;
+    private final boolean strict;
 
-    public StrftimeFormatter(String pattern, Locale locale) {
+    public StrftimeFormatter(String pattern, Locale locale, boolean strict) {
         this.locale = locale;
+        this.strict = strict;
         this.tokens = parse(pattern);
     }
 
-    StrftimeFormatter(List<Token> tokens, Locale locale) {
+    StrftimeFormatter(List<Token> tokens, Locale locale, boolean strict) {
         this.locale = locale;
         this.tokens = tokens;
+        this.strict = strict;
     }
 
     public static StrftimeFormatter ofPattern(String pattern) {
-        return new StrftimeFormatter(pattern, Locale.getDefault());
+        return new StrftimeFormatter(pattern, Locale.getDefault(), true);
     }
 
     public static StrftimeFormatter ofPattern(String pattern, Locale locale) {
-        return new StrftimeFormatter(pattern, locale);
+        return new StrftimeFormatter(pattern, locale, true);
     }
 
     public StrftimeFormatter withLocale(Locale locale) {
         if (this.locale.equals(locale)) {
             return this;
         }
-        return new StrftimeFormatter(tokens, locale);
+        return new StrftimeFormatter(tokens, locale, strict);
+    }
+
+    public StrftimeFormatter withStrictMode(boolean strict) {
+        if (this.strict == strict) {
+            return this;
+        }
+        return new StrftimeFormatter(tokens, locale, strict);
     }
 
 
