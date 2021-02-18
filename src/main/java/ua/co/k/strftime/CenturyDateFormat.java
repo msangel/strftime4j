@@ -11,9 +11,9 @@ class CenturyDateFormat extends HybridFormat {
     }
 
     @Override
-    public StringBuilder formatTo(Object obj, StringBuilder toAppendTo) {
-        StringBuilder res = super.formatTo(obj, new StringBuilder());
+    public String formatTo(Object obj) {
+        String res = super.formatTo(obj);
         int century = Integer.parseInt(res.substring(0, 2)) - 1;
-        return toAppendTo.append(century);
+        return String.valueOf(century);
     }
 }

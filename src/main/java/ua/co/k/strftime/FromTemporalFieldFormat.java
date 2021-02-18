@@ -14,11 +14,11 @@ public class FromTemporalFieldFormat extends HybridFormat {
     }
 
     @Override
-    protected StringBuilder doFormat(Object obj, StringBuilder toAppendTo) {
+    protected String doFormat(Object obj) {
         if (!(obj instanceof TemporalAccessor)) {
             throw new UnsupportedOperationException("Unable to get seconds from unknown type variable: " + obj.getClass());
         }
         int value = ((TemporalAccessor) obj).get(field);
-        return toAppendTo.append(value);
+        return String.valueOf(value);
     }
 }

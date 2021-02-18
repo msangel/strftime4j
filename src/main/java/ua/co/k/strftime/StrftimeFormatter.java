@@ -136,7 +136,10 @@ public class StrftimeFormatter {
             if (token.current == ValueToken.Parts.modifier) {
                 if (ValueToken.isModifier(codepoint)) {
                     // not supported
-                    continue;
+                    // dead end, fallback
+                    ++parseContext.startOffset;
+                    parseContext.state = ParseContext.State.TEXT;
+                    return new TextToken(fallback);
                 } else if (ValueToken.isConversion(codepoint)) {
                     token.current = ValueToken.Parts.conversion;
                 }
@@ -144,15 +147,19 @@ public class StrftimeFormatter {
 
             if (token.current == ValueToken.Parts.conversion) {
                 if (ValueToken.isConversion(codepoint)) {
-                    token.applyConversion(codepoint);
+                    boolean applied = token.applyConversion(codepoint);
                     ++parseContext.startOffset;
+                    if (!applied) {
+                        // dead end, fallback
+                        parseContext.state = ParseContext.State.TEXT;
+                        return new TextToken(fallback);
+                    }
                     break;
                 }
             }
             // dead end, fallback
             parseContext.state = ParseContext.State.TEXT;
             return new TextToken(fallback);
-
         }
         parseContext.state = ParseContext.State.TEXT;
         return token;

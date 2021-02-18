@@ -9,7 +9,7 @@ class LiteralPattern extends HybridFormat {
     }
 
     @Override
-    public StringBuilder formatTo(Object obj, StringBuilder toAppendTo) {
-        return toAppendTo.append(literal);
+    public String formatTo(Object obj) {
+        return literal;
     }
 }

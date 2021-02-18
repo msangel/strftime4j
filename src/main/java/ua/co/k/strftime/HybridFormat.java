@@ -18,22 +18,21 @@ class HybridFormat {
         this.locale = locale;
     }
 
-    public StringBuilder formatTo(Object obj, StringBuilder toAppendTo) {
+    public String formatTo(Object obj) {
         if (obj instanceof Date) {
             obj = ((Date) obj).toInstant().atZone(ZoneId.systemDefault());
         } else if (obj instanceof Calendar) {
             ZoneId zoneId = toZoneId(((Calendar) obj).getTimeZone().getID());
             obj = ((Calendar) obj).toInstant().atZone(zoneId);
         }
-        return doFormat(obj, toAppendTo);
+        return doFormat(obj);
     }
 
-    protected StringBuilder doFormat(Object obj, StringBuilder toAppendTo) {
+    protected String doFormat(Object obj) {
         if (java8Formatter == null) {
             java8Formatter = DateTimeFormatter.ofPattern(pattern, locale);
         }
-        java8Formatter.formatTo((TemporalAccessor)obj, toAppendTo);
-        return toAppendTo;
+        return java8Formatter.format((TemporalAccessor) obj);
     }
 
     private ZoneId toZoneId(String id) {

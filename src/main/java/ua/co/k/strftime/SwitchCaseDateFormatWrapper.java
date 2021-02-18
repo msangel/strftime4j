@@ -11,13 +11,13 @@ class SwitchCaseDateFormatWrapper extends HybridFormat {
     }
 
     @Override
-    public StringBuilder formatTo(Object obj, StringBuilder toAppendTo) {
-        String initial = delegate.formatTo(obj, new StringBuilder()).toString();
+    public String formatTo(Object obj) {
+        String initial = delegate.formatTo(obj).toString();
         if (toUpperCase) {
             initial = initial.toUpperCase(locale);
         } else {
             initial = initial.toLowerCase(locale);
         }
-        return toAppendTo.append(initial);
+        return initial;
     }
 }
