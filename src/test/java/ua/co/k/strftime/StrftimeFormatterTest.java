@@ -27,9 +27,11 @@ public class StrftimeFormatterTest {
         res = ofStrictPattern("%%").format(t);
         assertEquals("%", res);
 
+        // ruby says:
+        // `strftime': invalid format: %_50E% (ArgumentError)
         // %<flags><width><modifier><conversion>
-        res = ofStrictPattern("%_50E%").format(t);
-        assertEquals("%", res);
+//        res = ofStrictPattern("%_50E%").format(t);
+//        assertEquals("%", res);
 
     }
 

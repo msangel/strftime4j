@@ -36,6 +36,8 @@ assertEqual "Mon", (t.strftime "%0_0_0-5a")
 
 # pp t.strftime "%_4a"
 
+assertEqual "%", (t.strftime "%_50E%")
+#
 
 
 
