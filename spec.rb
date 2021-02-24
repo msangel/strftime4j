@@ -35,11 +35,24 @@ assertEqual "00Mon", (t.strftime "%0_0_05a")
 assertEqual "Mon", (t.strftime "%0_0_0-5a")
 
 # pp t.strftime "%_4a"
+assertEqual "Mon Jan  1 01:01:01 2007", (t.strftime "%c")
+assertEqual "MON JAN  1 01:01:01 2007", (t.strftime "%^c")
 
-assertEqual "%", (t.strftime "%_50E%")
-#
 
-
+# assertEqual "%", (t.strftime "%_50E%")
+assertEqual "20", (t.strftime "%C")
+assertEqual "  20", (t.strftime "%_4C")
+assertEqual "01", (t.strftime "%d")
+assertEqual "1", (t.strftime "%-d")
+assertEqual " 1", (t.strftime "%_d")
+assertEqual "07", (t.strftime "%g")
+assertEqual "7", (t.strftime "%-g")
+assertEqual " 7", (t.strftime "%_g")
+assertEqual "2007", (t.strftime "%G")
+assertEqual "%o", (t.strftime "%o")
+assertEqual "%O", (t.strftime "%O")
+assertEqual "00", (t.strftime "%U")
+pp t.strftime "%v"
 
 # Groups of modifiers:
 # 1) accept any amount of [-_0] as flags the latest of them take effect,
@@ -50,4 +63,11 @@ assertEqual "%", (t.strftime "%_50E%")
 #  <width> works well with padding flag
 # Known conversions:
 #    %a
+# 2) literal pattern:
+#    any flag cause this to be rendered as text node
+# Known conversions:
+#    %%, %n
+# 3) combination patterns, just a shortcut for frequently-used group of patterns:
+# Known conversions:
+#    %c
 #

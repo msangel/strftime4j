@@ -1,24 +1,22 @@
-package ua.co.k.strftime;
+package ua.co.k.strftime.formatters;
 
-import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
-import java.util.Locale;
 
-public class FromTemporalFieldFormat extends HybridFormat {
+class FromTemporalFieldFormat extends HybridFormat {
     private final TemporalField field;
 
     public FromTemporalFieldFormat(TemporalField field) {
-        super(null, null);
+        super(false);
         this.field = field;
     }
 
     @Override
-    protected String doFormat(Object obj) {
+    protected String doFormat(Object obj, int width) {
         if (!(obj instanceof TemporalAccessor)) {
             throw new UnsupportedOperationException("Unable to get seconds from unknown type variable: " + obj.getClass());
         }
-        int value = ((TemporalAccessor) obj).get(field);
+        long value = ((TemporalAccessor) obj).getLong(field);
         return String.valueOf(value);
     }
 }

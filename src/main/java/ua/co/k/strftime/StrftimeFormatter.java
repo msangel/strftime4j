@@ -42,6 +42,43 @@ public class StrftimeFormatter {
         return new StrftimeFormatter(pattern, locale, true);
     }
 
+    public static String padWithSpaces(String formatted, int padWidth) {
+        return padLeft(formatted, padWidth, ' ');
+    }
+
+    public static String padWithZeros(String formatted, int padWidth) {
+        return padLeft(formatted, padWidth, '0');
+    }
+
+    public static String removeLeadingZeros(String formatted) {
+        return formatted.replaceFirst("^0+(?!$)", "");
+    }
+
+    public static String padRight(String inputString, int length, char padSymbol) {
+        if (inputString.length() >= length) {
+            return inputString;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(inputString);
+        while (sb.length() < length) {
+            sb.append(padSymbol);
+        }
+        return sb.toString();
+    }
+
+    public static String padLeft(String inputString, int length, char padSymbol) {
+        if (inputString.length() >= length) {
+            return inputString;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < length - inputString.length()) {
+            sb.append(padSymbol);
+        }
+        sb.append(inputString);
+
+        return sb.toString();
+    }
+
     public StrftimeFormatter withLocale(Locale locale) {
         if (this.locale.equals(locale)) {
             return this;
@@ -158,6 +195,7 @@ public class StrftimeFormatter {
                 }
             }
             // dead end, fallback
+            ++parseContext.startOffset;
             parseContext.state = ParseContext.State.TEXT;
             return new TextToken(fallback);
         }

@@ -1,38 +1,33 @@
-package ua.co.k.strftime;
+package ua.co.k.strftime.formatters;
 
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
-class HybridFormat {
+public abstract class HybridFormat {
 
-    protected final String pattern;
-    protected final Locale locale;
-    private DateTimeFormatter   java8Formatter;
+    private final boolean combination;
 
-    public HybridFormat(String pattern, Locale locale) {
-        this.pattern = pattern;
-        this.locale = locale;
+    public HybridFormat(boolean combination) {
+        this.combination = combination;
     }
 
-    public String formatTo(Object obj) {
+    public boolean isCombination() {
+        return combination;
+    }
+
+    public String formatTo(Object obj, int width) {
         if (obj instanceof Date) {
             obj = ((Date) obj).toInstant().atZone(ZoneId.systemDefault());
         } else if (obj instanceof Calendar) {
             ZoneId zoneId = toZoneId(((Calendar) obj).getTimeZone().getID());
             obj = ((Calendar) obj).toInstant().atZone(zoneId);
         }
-        return doFormat(obj);
+        return doFormat(obj, width);
     }
 
-    protected String doFormat(Object obj) {
-        if (java8Formatter == null) {
-            java8Formatter = DateTimeFormatter.ofPattern(pattern, locale);
-        }
-        return java8Formatter.format((TemporalAccessor) obj);
+    protected String doFormat(Object obj, int padWidth) {
+        throw new UnsupportedOperationException();
     }
 
     private ZoneId toZoneId(String id) {
