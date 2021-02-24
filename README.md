@@ -5,4 +5,4 @@ Supported types: `java.util.Date`, `java.util.Calendar` and all date-time format
 Thread-save.
 
 Support all the standard syntax.
-The Ruby's implementation was taken as a reference spec.
+The Ruby's implementation was taken as an example spec.
