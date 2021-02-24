@@ -4,8 +4,8 @@ import ua.co.k.strftime.StrftimeFormatter;
 
 import java.time.temporal.ChronoField;
 
-class FractionalSeconds extends FromTemporalFieldFormat {
-    public FractionalSeconds() {
+class FractionalSecondsFormat extends FromTemporalFieldFormat {
+    public FractionalSecondsFormat() {
         super(ChronoField.MILLI_OF_SECOND);
     }
 

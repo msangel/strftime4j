@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'time'
 
 def assertEqual(expected, real)
   if expected != real
@@ -52,7 +53,9 @@ assertEqual "2007", (t.strftime "%G")
 assertEqual "%o", (t.strftime "%o")
 assertEqual "%O", (t.strftime "%O")
 assertEqual "00", (t.strftime "%U")
-pp t.strftime "%v"
+assertEqual " 1-JAN-2007", (t.strftime "%v")
+assertEqual "53", Time.parse("2021-01-02T01:04:05-06:00").strftime("%V")
+
 
 # Groups of modifiers:
 # 1) accept any amount of [-_0] as flags the latest of them take effect,

@@ -5,7 +5,6 @@ import ua.co.k.strftime.formatters.FromTemporalFieldWithPaddingFormat.Padding;
 
 import java.time.DayOfWeek;
 import java.time.temporal.ChronoField;
-import java.time.temporal.IsoFields;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -38,9 +37,9 @@ public class DateTimeFormatterFactory {
         translate.put('m', locale -> new PatternFormat("MM", locale, false));
         translate.put('M', locale -> new PatternFormat("mm", locale, false));
         translate.put('n', locale -> new LiteralPattern("\n"));
-        translate.put('N', locale -> new FractionalSeconds());
+        translate.put('N', locale -> new FractionalSecondsFormat());
         translate.put('p', locale -> new PatternFormat("a", locale, false));
-        translate.put('P', locale -> new SwitchCaseDateFormatWrapper(new PatternFormat("a", locale, false), false) );
+        translate.put('P', locale -> new SwitchCaseDateWrapperFormat(new PatternFormat("a", locale, false), false) );
         translate.put('r', locale -> new PatternFormat("hh:mm:ss a", locale, true));
         translate.put('R', locale -> new PatternFormat("HH:mm", locale, true));
         translate.put('s', locale -> new FromTemporalFieldFormat(ChronoField.INSTANT_SECONDS));
@@ -48,19 +47,17 @@ public class DateTimeFormatterFactory {
         translate.put('t', locale -> new LiteralPattern("\t"));
         translate.put('T', locale -> new PatternFormat("HH:mm:ss", locale, true));
         translate.put('u', locale -> new FromTemporalFieldFormat(ChronoField.DAY_OF_WEEK));
-        translate.put('U', locale -> new WeeksInYearFormatter(DayOfWeek.SUNDAY, null));
-        translate.put('v', locale -> new SwitchCaseDateFormatWrapper(new PatternFormat("d-MMM-yyyy", locale, true), true));
-        translate.put('V', locale -> new PatternFormat("ww", locale, false));
-        // week in year with first Monday as first day
-        translate.put('W', locale -> new FromTemporalFieldFormat(IsoFields.WEEK_OF_WEEK_BASED_YEAR));
-        // ???
-        translate.put('w', locale -> new PatternFormat("E", locale, false));
+        translate.put('U', locale -> new WeeksInYearFormat(DayOfWeek.SUNDAY, null, true));
+        translate.put('v', locale -> new SwitchCaseDateWrapperFormat(new PatternFormat("d-MMM-yyyy", locale, true), true));
+        translate.put('V', locale -> new ISO8601WeekInYearFormat());
+        translate.put('w', locale -> new DayOfWeekFormat(DayOfWeek.SUNDAY, 0));
+        translate.put('W', locale -> new WeeksInYearFormat(DayOfWeek.MONDAY, null, true));
         translate.put('x', locale -> new PatternFormat("MM/dd/yy", locale, true));
         translate.put('X', locale -> new PatternFormat("HH:mm:ss", locale, true));
         translate.put('y', locale -> new PatternFormat("yy", locale, false));
         translate.put('Y', locale -> new PatternFormat("yyyy", locale, false));
         translate.put('z', locale -> new PatternFormat("Z", locale, false));
-        translate.put('Z', locale -> new PatternFormat("z", locale, false));
+        translate.put('Z', locale -> new PatternFormat("VV", locale, false));
         translate.put('%', locale -> new LiteralPattern("%"));
     }
 

@@ -16,7 +16,12 @@ class FromTemporalFieldFormat extends HybridFormat {
         if (!(obj instanceof TemporalAccessor)) {
             throw new UnsupportedOperationException("Unable to get seconds from unknown type variable: " + obj.getClass());
         }
-        long value = ((TemporalAccessor) obj).getLong(field);
+
+        long value = doFormat((TemporalAccessor) obj);
         return String.valueOf(value);
+    }
+
+    protected Long doFormat(TemporalAccessor obj) {
+        return obj.getLong(field);
     }
 }

@@ -151,10 +151,18 @@ public class StrftimeFormatterTest {
                 {"%u", "2"},
                 {"%U", "00"},
                 {"%_U", " 0"},
-                // %v ==  %e-%^b-%4Y
-                {"%v", "2-JAN-2007"}
+                {"%v", "2-JAN-2007"},
+                {"%V", "01"},
+                {"%w", "2"},
+                {"%W", "01"},
+                {"%x", "01/02/07"},
+                {"%X", "13:04:05"},
+                {"%y", "07"},
+                {"%Y", "2007"},
+                {"%z", "-0600"},
+                {"%Z", "America/Winnipeg"},
         };
-        ZonedDateTime t = ZonedDateTime.parse("2007-01-02T13:04:05.678-06:00");
+        ZonedDateTime t = ZonedDateTime.parse("2007-01-02T13:04:05.678-06:00[America/Winnipeg]");
         for(String[] sample: data) {
             assertEquals("test for pattern: " + sample[0], sample[1], ofStrictPattern(sample[0]).format(t));
         }
@@ -168,13 +176,50 @@ public class StrftimeFormatterTest {
                 {"%p", "AM"},
                 {"%P", "am"},
                 {"%r", "01:04:05 AM"},
-                {"%R", "01:04"}
+                {"%R", "01:04"},
+                {"%w", "0"},
+                {"%z", "-0600"},
+                {"%Z", "-06:00"},
         };
 
-        t = ZonedDateTime.parse("2007-01-02T01:04:05-06:00");
+        // Sunday
+        t = ZonedDateTime.parse("2007-01-07T01:04:05-06:00");
         for(String[] sample: data) {
             assertEquals("test for pattern: " + sample[0], sample[1], ofStrictPattern(sample[0]).format(t));
         }
+
+        data = new String[][]{
+                // %w - Day of the week (Sunday is 0, 0..6)
+                // Monday is 1
+                {"%w", "1"},
+        };
+        // Monday
+        t = ZonedDateTime.parse("2007-01-01T01:04:05-06:00");
+        for(String[] sample: data) {
+            assertEquals("test for pattern: " + sample[0], sample[1], ofStrictPattern(sample[0]).format(t));
+        }
+        // Friday
+        data = new String[][]{
+                {"%w", "5"},
+                {"%U", "08"},
+                {"%W", "08"},
+                {"%V", "08"},
+        };
+        t = ZonedDateTime.parse("2021-02-26T01:04:05-06:00");
+        for(String[] sample: data) {
+            assertEquals("test for pattern: " + sample[0], sample[1], ofStrictPattern(sample[0]).format(t));
+        }
+
+        data = new String[][]{
+                {"%U", "00"},
+                {"%W", "00"},
+                {"%V", "53"},
+        };
+        t = ZonedDateTime.parse("2021-01-02T01:04:05-06:00");
+        for(String[] sample: data) {
+            assertEquals("test for pattern: " + sample[0], sample[1], ofStrictPattern(sample[0]).format(t));
+        }
+
     }
 
     @Test

@@ -1,10 +1,10 @@
 package ua.co.k.strftime.formatters;
 
-class SwitchCaseDateFormatWrapper extends PatternFormat {
+class SwitchCaseDateWrapperFormat extends PatternFormat {
     private final HybridFormat delegate;
     private final boolean toUpperCase;
 
-    public SwitchCaseDateFormatWrapper(PatternFormat delegate, boolean toUpperCase) {
+    public SwitchCaseDateWrapperFormat(PatternFormat delegate, boolean toUpperCase) {
         super(delegate.pattern, delegate.locale, delegate.isCombination());
         this.delegate = delegate;
         this.toUpperCase = toUpperCase;
