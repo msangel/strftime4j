@@ -1,7 +1,9 @@
 # strftime4j
 strftime time formatter for java
 
+[![Build Status](https://travis-ci.com/msangel/strftime4j.svg?branch=master)](https://travis-ci.com/msangel/strftime4j)
 [![Coverage Status](https://coveralls.io/repos/github/msangel/strftime4j/badge.svg?branch=master)](https://coveralls.io/github/msangel/strftime4j?branch=master)
+
 
 Supported types: `java.util.Date`, `java.util.Calendar` and all date-time formats of java8, like:
 * `java.time.Instant`
