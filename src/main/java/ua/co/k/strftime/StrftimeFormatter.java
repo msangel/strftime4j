@@ -49,14 +49,6 @@ public class StrftimeFormatter {
         return new StrftimeFormatter(tokens, locale, strict);
     }
 
-    public StrftimeFormatter withStrictMode(boolean strict) {
-        if (this.strict == strict) {
-            return this;
-        }
-        return new StrftimeFormatter(tokens, locale, strict);
-    }
-
-
     public String format(Object obj) {
         StringBuilder sb = new StringBuilder();
         formatTo(obj, sb);
