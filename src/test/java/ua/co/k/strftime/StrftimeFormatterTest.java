@@ -2,12 +2,36 @@ package ua.co.k.strftime;
 
 import org.junit.Test;
 
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 
 import static org.junit.Assert.assertEquals;
 import static ua.co.k.strftime.StrftimeFormatter.ofStrictPattern;
 
 public class StrftimeFormatterTest {
+    @Test
+    public void testCodeFromReadMe() {
+        // strict mode allow to ensure that the string will be formatted as expected:
+        ZonedDateTime t = ZonedDateTime.parse("2021-02-16T23:43:00-02:00");
+        String res = StrftimeFormatter.ofStrictPattern("Printed on %m/%d/%Y").format(t);
+        assertEquals("Printed on 02/16/2021", res);
+
+        // strict mode will throw an exception if input object does
+        // not contains required temporal field
+        try {
+            YearMonth ym = YearMonth.of(2020, 1);
+            StrftimeFormatter.ofStrictPattern("Printed on %m/%d/%Y").format(ym);
+        } catch (Exception e) {
+            // exception caught,
+            // as the input object YearMonth does not
+            // contains information about the Date in it!
+        }
+
+        // safe mode will ignore missing fields
+        YearMonth ym = YearMonth.of(2020, 1);
+        res = StrftimeFormatter.ofSafePattern("Printed on %m/%d/%Y").format(ym);
+        assertEquals("Printed on 01//2020", res);
+    }
     @Test
     public void testParserCommons() {
         ZonedDateTime t = ZonedDateTime.parse("2021-02-16T23:43:00-02:00");

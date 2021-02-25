@@ -10,6 +10,9 @@ class FractionalSecondsFormat extends FromTemporalFieldFormat {
     @Override
     protected String doFormat(Object obj, int width, boolean strict) {
         String original = super.doFormat(obj, width, strict);
+        if (original.isEmpty() && !strict) {
+            return "";
+        }
         if (width == 0) {
             width = 9;
         }
