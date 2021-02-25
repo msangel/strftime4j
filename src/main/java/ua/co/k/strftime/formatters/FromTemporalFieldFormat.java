@@ -12,16 +12,26 @@ class FromTemporalFieldFormat extends HybridFormat {
     }
 
     @Override
-    protected String doFormat(Object obj, int width) {
+    protected String doFormat(Object obj, int width, boolean strict) {
         if (!(obj instanceof TemporalAccessor)) {
-            throw new UnsupportedOperationException("Unable to get seconds from unknown type variable: " + obj.getClass());
+            if (strict) {
+                throw new UnsupportedOperationException("Unable to get seconds from unknown type variable: " + obj.getClass());
+            } else {
+                return "";
+            }
         }
 
-        long value = doFormat((TemporalAccessor) obj);
+        Long value = doFormat((TemporalAccessor) obj, strict);
+        if (!strict && value == null) {
+            return "";
+        }
         return String.valueOf(value);
     }
 
-    protected Long doFormat(TemporalAccessor obj) {
+    protected Long doFormat(TemporalAccessor obj, boolean strict) {
+        if (!obj.isSupported(field) && !strict) {
+            return null;
+        }
         return obj.getLong(field);
     }
 }

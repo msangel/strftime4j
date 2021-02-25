@@ -15,10 +15,20 @@ class PatternFormat extends HybridFormat {
         this.locale = locale;
     }
 
-    protected String doFormat(Object obj, int padWidth) {
+    protected String doFormat(Object obj, int padWidth, boolean strict) {
         if (java8Formatter == null) {
             java8Formatter = DateTimeFormatter.ofPattern(pattern, locale);
         }
-        return java8Formatter.format((TemporalAccessor) obj);
+        TemporalAccessor temporalAccessor = (TemporalAccessor) obj;
+        String res;
+        try {
+            res = java8Formatter.format(temporalAccessor);
+        } catch (RuntimeException e) {
+            if (strict) {
+                throw e;
+            }
+            return "";
+        }
+        return res;
     }
 }

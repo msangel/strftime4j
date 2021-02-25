@@ -11,7 +11,7 @@ public class LiteralPattern extends HybridFormat {
     }
 
     @Override
-    public String formatTo(Object obj, int width) {
+    public String formatTo(Object obj, int width, boolean strict) {
         return literal;
     }
 }

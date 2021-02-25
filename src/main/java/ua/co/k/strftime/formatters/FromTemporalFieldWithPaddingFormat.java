@@ -1,7 +1,5 @@
 package ua.co.k.strftime.formatters;
 
-import ua.co.k.strftime.StrftimeFormatter;
-
 import java.time.temporal.TemporalField;
 
 class FromTemporalFieldWithPaddingFormat extends FromTemporalFieldFormat {
@@ -21,8 +19,8 @@ class FromTemporalFieldWithPaddingFormat extends FromTemporalFieldFormat {
     }
 
     @Override
-    protected String doFormat(Object obj, int width) {
-        String res = super.doFormat(obj, width);
-        return StrftimeFormatter.padLeft(res, padding.count, padding.symbol);
+    protected String doFormat(Object obj, int width, boolean strict) {
+        String res = super.doFormat(obj, width, strict);
+        return HybridFormat.padLeft(res, padding.count, padding.symbol);
     }
 }

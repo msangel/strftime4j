@@ -16,8 +16,8 @@ class DayOfWeekFormat extends FromTemporalFieldFormat {
     }
 
     @Override
-    protected Long doFormat(TemporalAccessor obj) {
-        long original = super.doFormat(obj); // Mon is 1, Sun is 7
+    protected Long doFormat(TemporalAccessor obj, boolean strict) {
+        Long original = super.doFormat(obj, strict); // Mon is 1, Sun is 7
         // just convert day number from Monday-based system to firstDay-based
         return ((7 + original - firstDay.getValue()) % 7) + startCount;
     }

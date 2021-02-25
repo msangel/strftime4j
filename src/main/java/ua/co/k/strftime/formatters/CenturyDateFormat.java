@@ -12,8 +12,11 @@ class CenturyDateFormat extends PatternFormat {
     }
 
     @Override
-    public String formatTo(Object obj, int width) {
-        String res = super.formatTo(obj, width);
+    public String formatTo(Object obj, int width, boolean strict) {
+        String res = super.formatTo(obj, width, strict);
+        if (res.isEmpty()) {
+            return res;
+        }
         int century = Integer.parseInt(res.substring(0, 2)) + 1;
         return String.valueOf(century);
     }

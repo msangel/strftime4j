@@ -9,9 +9,13 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static ua.co.k.strftime.formatters.HybridFormat.padWithSpaces;
+import static ua.co.k.strftime.formatters.HybridFormat.padWithZeros;
+import static ua.co.k.strftime.formatters.HybridFormat.removeLeadingZeros;
+
 class ValueToken implements Token {
 
-    private static DateTimeFormatterFactory factory = new DateTimeFormatterFactory();
+    private static final DateTimeFormatterFactory factory = new DateTimeFormatterFactory();
 
     final static List<Integer> flags = new ArrayList<>(6);
     private final Locale locale;
@@ -127,22 +131,22 @@ class ValueToken implements Token {
     }
 
     @Override
-    public void render(Object date, StringBuilder out) {
+    public void render(Object date, StringBuilder out, boolean strict) {
         int padWidth = 0;
         if (!widthRaw.isEmpty()) {
             padWidth = Integer.parseInt(widthRaw.stream().map(Object::toString).collect(Collectors.joining()));
         }
-        String formatted = formatter.formatTo(date, padWidth);
+        String formatted = formatter.formatTo(date, padWidth, strict);
         if (!formatter.isCombination()) {
             switch (flagPadMode) {
                 case flagPadModeNone:
-                    formatted = StrftimeFormatter.removeLeadingZeros(formatted);
+                    formatted = removeLeadingZeros(formatted);
                     break;
                 case flagPadModeZeros:
-                    formatted = StrftimeFormatter.padWithZeros(formatted, padWidth);
+                    formatted = padWithZeros(formatted, padWidth);
                     break;
                 case flagPadModeSpaces:
-                    formatted = StrftimeFormatter.padWithSpaces(StrftimeFormatter.removeLeadingZeros(formatted), Math.max(padWidth, 2));
+                    formatted = padWithSpaces(removeLeadingZeros(formatted), Math.max(padWidth, 2));
                     break;
                 case flagPadModeDefaults:
                 default:

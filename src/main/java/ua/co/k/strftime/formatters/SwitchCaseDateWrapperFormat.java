@@ -11,8 +11,8 @@ class SwitchCaseDateWrapperFormat extends PatternFormat {
     }
 
     @Override
-    public String formatTo(Object obj, int width) {
-        String initial = delegate.formatTo(obj, width);
+    public String formatTo(Object obj, int width, boolean strict) {
+        String initial = delegate.formatTo(obj, width, strict);
         if (toUpperCase) {
             initial = initial.toUpperCase(locale);
         } else {

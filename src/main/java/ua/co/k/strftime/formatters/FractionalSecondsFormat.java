@@ -1,7 +1,5 @@
 package ua.co.k.strftime.formatters;
 
-import ua.co.k.strftime.StrftimeFormatter;
-
 import java.time.temporal.ChronoField;
 
 class FractionalSecondsFormat extends FromTemporalFieldFormat {
@@ -10,11 +8,11 @@ class FractionalSecondsFormat extends FromTemporalFieldFormat {
     }
 
     @Override
-    protected String doFormat(Object obj, int width) {
-        String original = super.doFormat(obj, width);
+    protected String doFormat(Object obj, int width, boolean strict) {
+        String original = super.doFormat(obj, width, strict);
         if (width == 0) {
             width = 9;
         }
-        return StrftimeFormatter.padRight(original, width, '0');
+        return HybridFormat.padRight(original, width, '0');
     }
 }

@@ -1,7 +1,5 @@
 package ua.co.k.strftime.formatters;
 
-import ua.co.k.strftime.StrftimeFormatter;
-
 import java.time.DayOfWeek;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
@@ -22,7 +20,7 @@ public class WeeksInYearFormat extends HybridFormat {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected String doFormat(Object obj, int padWidth) {
+    protected String doFormat(Object obj, int padWidth, boolean strict) {
         if (!(obj instanceof Temporal)) {
             throw new IllegalArgumentException("given parameter is not a Temporal and cannot be adjusted to it");
         }
@@ -48,7 +46,7 @@ public class WeeksInYearFormat extends HybridFormat {
             }
             between = ChronoUnit.WEEKS.between(startOfFirstWeekInMonth, tObj) + 1;
         }
-        return StrftimeFormatter.padWithZeros(String.valueOf(between), 2);
+        return HybridFormat.padWithZeros(String.valueOf(between), 2);
     }
 
     private Temporal getStartOfFirstWeekInYear(Temporal firstOfThisYear) {

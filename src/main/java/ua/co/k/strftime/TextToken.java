@@ -20,7 +20,7 @@ class TextToken implements Token {
     }
 
     @Override
-    public void render(Object date, StringBuilder out) {
+    public void render(Object date, StringBuilder out, boolean strict) {
         codepoints.forEach(out::appendCodePoint);
     }
 

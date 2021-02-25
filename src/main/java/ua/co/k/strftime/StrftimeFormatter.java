@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StrftimeFormatter {
-
+// todo: 1) check l10n, 2) :::z, 3) symbol redefining public
     private final Locale locale;
     private final List<Token> tokens;
     private final boolean strict;
@@ -42,43 +42,6 @@ public class StrftimeFormatter {
         return new StrftimeFormatter(pattern, locale, true);
     }
 
-    public static String padWithSpaces(String formatted, int padWidth) {
-        return padLeft(formatted, padWidth, ' ');
-    }
-
-    public static String padWithZeros(String formatted, int padWidth) {
-        return padLeft(formatted, padWidth, '0');
-    }
-
-    public static String removeLeadingZeros(String formatted) {
-        return formatted.replaceFirst("^0+(?!$)", "");
-    }
-
-    public static String padRight(String inputString, int length, char padSymbol) {
-        if (inputString.length() >= length) {
-            return inputString;
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(inputString);
-        while (sb.length() < length) {
-            sb.append(padSymbol);
-        }
-        return sb.toString();
-    }
-
-    public static String padLeft(String inputString, int length, char padSymbol) {
-        if (inputString.length() >= length) {
-            return inputString;
-        }
-        StringBuilder sb = new StringBuilder();
-        while (sb.length() < length - inputString.length()) {
-            sb.append(padSymbol);
-        }
-        sb.append(inputString);
-
-        return sb.toString();
-    }
-
     public StrftimeFormatter withLocale(Locale locale) {
         if (this.locale.equals(locale)) {
             return this;
@@ -101,7 +64,7 @@ public class StrftimeFormatter {
     }
 
     public void formatTo(Object obj, StringBuilder sb) {
-        tokens.forEach( el -> el.render(obj, sb));
+        tokens.forEach( el -> el.render(obj, sb, strict));
     }
 
     private List<Token> parse(String in) {
