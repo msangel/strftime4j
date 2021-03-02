@@ -81,3 +81,4 @@ In long [read here](https://github.com/msangel/strftime4j/blob/master/LICENSE)
 * https://ruby-doc.org/core-3.0.0/Time.html#method-i-strftime
 * https://www.php.net/manual/ru/function.strftime.php
 * https://strftime.org/
+* What version should be? https://octopus.com/blog/maven-versioning-explained
