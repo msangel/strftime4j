@@ -74,3 +74,9 @@ In short:
 * The work is provided "as is". You may not hold the author liable.
 
 In long [read here](https://github.com/msangel/strftime4j/blob/master/LICENSE)
+
+## Further reading:
+* http://www.strfti.me/
+* https://ruby-doc.org/core-3.0.0/Time.html#method-i-strftime
+* https://www.php.net/manual/ru/function.strftime.php
+* https://strftime.org/
