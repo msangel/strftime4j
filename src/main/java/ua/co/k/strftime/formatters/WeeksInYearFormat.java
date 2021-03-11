@@ -5,6 +5,7 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Locale;
 
 public class WeeksInYearFormat extends HybridFormat {
     private final DayOfWeek firstDayOfWeek;
@@ -20,7 +21,7 @@ public class WeeksInYearFormat extends HybridFormat {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected String doFormat(Object obj, int padWidth, boolean strict) {
+    protected String doFormat(Object obj, int padWidth, boolean strict, Locale locale) {
         if (!(obj instanceof Temporal)) {
             throw new IllegalArgumentException("given parameter is not a Temporal and cannot be adjusted to it");
         }

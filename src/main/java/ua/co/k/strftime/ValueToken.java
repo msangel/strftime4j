@@ -18,7 +18,15 @@ class ValueToken implements Token {
     private static final DateTimeFormatterFactory factory = new DateTimeFormatterFactory();
 
     final static List<Integer> flags = new ArrayList<>(6);
-    private final Locale locale;
+    {
+        flags.add((int) '-'); // -  don't pad a numerical output.
+        flags.add((int) '_'); // _  use spaces for padding.
+        flags.add((int) '0'); // 0  use zeros for padding.
+        flags.add((int) '^'); // ^  upcase the result string.
+        flags.add((int) '#'); // #  change case
+        flags.add((int) ':'); // :  use colons for %z
+    }
+
     private HybridFormat formatter;
     private int zoneColumns = 0;
     private final List<Character> widthRaw = new ArrayList<>();
@@ -36,14 +44,7 @@ class ValueToken implements Token {
     }
     private FlagPadMode flagPadMode = FlagPadMode.flagPadModeDefaults;
 
-    {
-        flags.add((int) '-'); // -  don't pad a numerical output.
-        flags.add((int) '_'); // _  use spaces for padding.
-        flags.add((int) '0'); // 0  use zeros for padding.
-        flags.add((int) '^'); // ^  upcase the result string.
-        flags.add((int) '#'); // #  change case
-        flags.add((int) ':'); // :  use colons for %z
-    }
+
 
     private int conversion;
 
@@ -56,11 +57,6 @@ class ValueToken implements Token {
     }
 
     Parts current;
-
-    public ValueToken(Locale locale) {
-        Objects.requireNonNull(locale);
-        this.locale = locale;
-    }
 
     public static boolean isFlag(int codepoint) {
         return flags.contains(codepoint);
@@ -113,7 +109,7 @@ class ValueToken implements Token {
             return false;
         }
         conversion = codepoint;
-        HybridFormat targetFormatter = factory.getFormatter(codepoint, locale);
+        HybridFormat targetFormatter = factory.getFormatter(codepoint);
         if (targetFormatter == null) {
             // unknown formatter, safe fallback
             return false;
@@ -131,12 +127,12 @@ class ValueToken implements Token {
     }
 
     @Override
-    public void render(Object date, StringBuilder out, boolean strict) {
+    public void render(Object date, StringBuilder out, boolean strict, Locale locale) {
         int padWidth = 0;
         if (!widthRaw.isEmpty()) {
             padWidth = Integer.parseInt(widthRaw.stream().map(Object::toString).collect(Collectors.joining()));
         }
-        String formatted = formatter.formatTo(date, padWidth, strict);
+        String formatted = formatter.formatTo(date, padWidth, strict, locale);
         if (!formatter.isCombination()) {
             switch (flagPadMode) {
                 case flagPadModeNone:

@@ -3,6 +3,7 @@ package ua.co.k.strftime.formatters;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public abstract class HybridFormat {
 
@@ -56,17 +57,17 @@ public abstract class HybridFormat {
         return combination;
     }
 
-    public String formatTo(Object obj, int width, boolean strict) {
+    public String formatTo(Object obj, int width, boolean strict, Locale locale) {
         if (obj instanceof Date) {
             obj = ((Date) obj).toInstant().atZone(ZoneId.systemDefault());
         } else if (obj instanceof Calendar) {
             ZoneId zoneId = toZoneId(((Calendar) obj).getTimeZone().getID());
             obj = ((Calendar) obj).toInstant().atZone(zoneId);
         }
-        return doFormat(obj, width, strict);
+        return doFormat(obj, width, strict, locale);
     }
 
-    protected String doFormat(Object obj, int padWidth, boolean strict) {
+    protected String doFormat(Object obj, int padWidth, boolean strict, Locale locale) {
         throw new UnsupportedOperationException();
     }
 

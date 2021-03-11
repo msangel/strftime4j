@@ -2,6 +2,7 @@ package ua.co.k.strftime.formatters;
 
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalField;
+import java.util.Locale;
 
 class FromTemporalFieldFormat extends HybridFormat {
     private final TemporalField field;
@@ -12,7 +13,7 @@ class FromTemporalFieldFormat extends HybridFormat {
     }
 
     @Override
-    protected String doFormat(Object obj, int width, boolean strict) {
+    protected String doFormat(Object obj, int width, boolean strict, Locale locale) {
         if (!(obj instanceof TemporalAccessor)) {
             if (strict) {
                 throw new UnsupportedOperationException("Unable to get seconds from unknown type variable: " + obj.getClass());

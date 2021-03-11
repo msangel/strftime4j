@@ -2,8 +2,11 @@ package ua.co.k.strftime;
 
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static ua.co.k.strftime.StrftimeFormatter.ofStrictPattern;
@@ -184,7 +187,7 @@ public class StrftimeFormatterTest {
                 {"%y", "07"},
                 {"%Y", "2007"},
                 {"%z", "-0600"},
-                {"%Z", "America/Winnipeg"},
+                {"%Z", "Central Standard Time"},
         };
         ZonedDateTime t = ZonedDateTime.parse("2007-01-02T13:04:05.678-06:00[America/Winnipeg]");
         for(String[] sample: data) {
@@ -284,4 +287,19 @@ public class StrftimeFormatterTest {
         }
     }
 
+    @Test
+    public void testWithLocale() {
+        ZonedDateTime val = ZonedDateTime.of(LocalDateTime.of(2021, 11, 3, 16, 40, 44), ZoneId.of("America/Los_Angeles"));
+        String res = ofStrictPattern("%Y-%m-%d %H:%M:%S %Z")
+                .withLocale(Locale.GERMANY)
+                .format(val);
+
+        int classVersion = Double.valueOf(System.getProperty("java.class.version")).intValue();
+        // JDK localisation changed text starting 9th java version, its 53 java class version
+        if (classVersion > 52) {
+            assertEquals("2021-11-03 16:40:44 Nordamerikanische Westküsten-Sommerzeit", res);
+        } else {
+            assertEquals("2021-11-03 16:40:44 Pazifische Sommerzeit", res);
+        }
+    }
 }

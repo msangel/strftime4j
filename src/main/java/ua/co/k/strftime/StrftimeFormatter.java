@@ -2,14 +2,12 @@ package ua.co.k.strftime;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StrftimeFormatter {
-// todo: 1) check l10n, 2) :::z, 3) symbol redefining public
+// todo: 1) :::z, 2) symbol redefining public
     private final Locale locale;
     private final List<Token> tokens;
     private final boolean strict;
@@ -56,7 +54,7 @@ public class StrftimeFormatter {
     }
 
     public void formatTo(Object obj, StringBuilder sb) {
-        tokens.forEach( el -> el.render(obj, sb, strict));
+        tokens.forEach( el -> el.render(obj, sb, strict, locale));
     }
 
     private List<Token> parse(String in) {
@@ -96,7 +94,7 @@ public class StrftimeFormatter {
 
 
     private Token readNextValue(ParseContext parseContext) {
-        ValueToken token = new ValueToken(locale);
+        ValueToken token = new ValueToken();
         List<Integer> fallback = new ArrayList<>();
         // %<flags><width><modifier><conversion>
         token.current = ValueToken.Parts.flags;

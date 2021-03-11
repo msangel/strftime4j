@@ -7,13 +7,13 @@ import java.util.Locale;
  */
 class CenturyDateFormat extends PatternFormat {
 
-    public CenturyDateFormat(Locale locale) {
-        super("yyyy", locale, false);
+    public CenturyDateFormat() {
+        super("yyyy", false);
     }
 
     @Override
-    public String formatTo(Object obj, int width, boolean strict) {
-        String res = super.formatTo(obj, width, strict);
+    public String formatTo(Object obj, int width, boolean strict, Locale locale) {
+        String res = super.formatTo(obj, width, strict, locale);
         if (res.isEmpty()) {
             return res;
         }

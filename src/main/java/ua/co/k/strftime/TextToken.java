@@ -2,6 +2,7 @@ package ua.co.k.strftime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 class TextToken implements Token {
     List<Integer> codepoints = new ArrayList<>();
@@ -20,7 +21,7 @@ class TextToken implements Token {
     }
 
     @Override
-    public void render(Object date, StringBuilder out, boolean strict) {
+    public void render(Object date, StringBuilder out, boolean strict, Locale locale) {
         codepoints.forEach(out::appendCodePoint);
     }
 

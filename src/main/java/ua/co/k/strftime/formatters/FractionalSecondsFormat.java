@@ -1,6 +1,7 @@
 package ua.co.k.strftime.formatters;
 
 import java.time.temporal.ChronoField;
+import java.util.Locale;
 
 class FractionalSecondsFormat extends FromTemporalFieldFormat {
     public FractionalSecondsFormat() {
@@ -8,8 +9,8 @@ class FractionalSecondsFormat extends FromTemporalFieldFormat {
     }
 
     @Override
-    protected String doFormat(Object obj, int width, boolean strict) {
-        String original = super.doFormat(obj, width, strict);
+    protected String doFormat(Object obj, int width, boolean strict, Locale locale) {
+        String original = super.doFormat(obj, width, strict, locale);
         if (original.isEmpty() && !strict) {
             return "";
         }
