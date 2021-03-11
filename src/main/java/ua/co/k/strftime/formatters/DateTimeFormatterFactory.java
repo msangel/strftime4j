@@ -59,7 +59,6 @@ public class DateTimeFormatterFactory {
         translate.put('%', new LiteralPattern("%"));
     }
 
-
     public HybridFormat getFormatter(int strftimePatternCodepoint) {
         return translate.get((char) strftimePatternCodepoint);
     }
@@ -70,4 +69,9 @@ public class DateTimeFormatterFactory {
         }
         return translate.containsKey((char) codepoint);
     }
+
+    public static void override(Character conversion, HybridFormat newFormat) {
+        translate.put(conversion, newFormat);
+    }
+
 }
