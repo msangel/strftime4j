@@ -37,6 +37,9 @@ public abstract class HybridFormat {
     }
 
     public static String padLeft(String inputString, int length, char padSymbol) {
+        if (inputString.length()==0) {
+            return inputString;
+        }
         if (inputString.length() >= length) {
             return inputString;
         }
