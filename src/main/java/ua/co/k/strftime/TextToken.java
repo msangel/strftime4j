@@ -21,7 +21,7 @@ class TextToken implements Token {
     }
 
     @Override
-    public void render(Object date, StringBuilder out, boolean strict, Locale locale) {
+    public void render(Object date, StringBuilder out, boolean strict, Locale locale, ZoneIdResolver zoneIdResolver) {
         codepoints.forEach(out::appendCodePoint);
     }
 

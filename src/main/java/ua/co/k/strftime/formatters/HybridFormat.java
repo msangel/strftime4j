@@ -1,5 +1,7 @@
 package ua.co.k.strftime.formatters;
 
+import ua.co.k.strftime.ZoneIdResolver;
+
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,29 +59,21 @@ public abstract class HybridFormat {
         return combination;
     }
 
-    public String formatTo(Object obj, int width, boolean strict, Locale locale) {
+    public String formatTo(Object obj, int width, boolean strict, Locale locale, ZoneIdResolver zoneResolver) {
         if (obj instanceof Date) {
             obj = ((Date) obj).toInstant().atZone(ZoneId.systemDefault());
         } else if (obj instanceof Calendar) {
-            ZoneId zoneId = toZoneId(((Calendar) obj).getTimeZone().getID());
+            String calendarZoneId = ((Calendar) obj).getTimeZone().getID();
+            ZoneId zoneId = zoneResolver.toZoneId(calendarZoneId);
             obj = ((Calendar) obj).toInstant().atZone(zoneId);
         }
         return doFormat(obj, width, strict, locale);
     }
 
+    // here is default instead of abstract, because
+    // if subclasses will override formatTo method, this one
+    // will never be called, and so - implementing
     protected String doFormat(Object obj, int padWidth, boolean strict, Locale locale) {
         throw new UnsupportedOperationException();
-    }
-
-    private ZoneId toZoneId(String id) {
-        if (id.length() == 3) {
-            if ("EST".equals(id))
-                return ZoneId.of("America/New_York");
-            if ("MST".equals(id))
-                return ZoneId.of("America/Denver");
-            if ("HST".equals(id))
-                return ZoneId.of("America/Honolulu");
-        }
-        return ZoneId.of(id, ZoneId.SHORT_IDS);
     }
 }

@@ -7,44 +7,54 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class StrftimeFormatter {
-// todo: 1) :::z, 2) symbol redefining public
+// todo: 1) :::z
     private final Locale locale;
     private final List<Token> tokens;
     private final boolean strict;
+    private final ZoneIdResolver zoneIdResolver;
 
-    public StrftimeFormatter(String pattern, Locale locale, boolean strict) {
+    public StrftimeFormatter(String pattern, Locale locale, boolean strict, ZoneIdResolver zoneIdResolver) {
         this.locale = locale;
         this.strict = strict;
         this.tokens = parse(pattern);
+        this.zoneIdResolver = zoneIdResolver;
     }
 
-    StrftimeFormatter(List<Token> tokens, Locale locale, boolean strict) {
+    StrftimeFormatter(List<Token> tokens, Locale locale, boolean strict, ZoneIdResolver zoneIdResolver) {
         this.locale = locale;
         this.tokens = tokens;
         this.strict = strict;
+        this.zoneIdResolver = zoneIdResolver;
     }
 
     public static StrftimeFormatter ofSafePattern(String pattern) {
-        return new StrftimeFormatter(pattern, Locale.getDefault(), false);
+        return new StrftimeFormatter(pattern, Locale.getDefault(), false, ZoneIdResolver.DEFAULT);
     }
 
     public static StrftimeFormatter ofSafePattern(String pattern, Locale locale) {
-        return new StrftimeFormatter(pattern, locale, false);
+        return new StrftimeFormatter(pattern, locale, false, ZoneIdResolver.DEFAULT);
     }
 
     public static StrftimeFormatter ofStrictPattern(String pattern) {
-        return new StrftimeFormatter(pattern, Locale.getDefault(), true);
+        return new StrftimeFormatter(pattern, Locale.getDefault(), true, ZoneIdResolver.DEFAULT);
     }
 
     public static StrftimeFormatter ofStrictPattern(String pattern, Locale locale) {
-        return new StrftimeFormatter(pattern, locale, true);
+        return new StrftimeFormatter(pattern, locale, true, ZoneIdResolver.DEFAULT);
     }
 
     public StrftimeFormatter withLocale(Locale locale) {
         if (this.locale.equals(locale)) {
             return this;
         }
-        return new StrftimeFormatter(tokens, locale, strict);
+        return new StrftimeFormatter(tokens, locale, strict, zoneIdResolver);
+    }
+
+    public StrftimeFormatter withZoneIdResolver(ZoneIdResolver resolver) {
+        if (this.zoneIdResolver.equals(resolver)) {
+            return this;
+        }
+        return new StrftimeFormatter(tokens, locale, strict, resolver);
     }
 
     public String format(Object obj) {
@@ -54,7 +64,7 @@ public class StrftimeFormatter {
     }
 
     public void formatTo(Object obj, StringBuilder sb) {
-        tokens.forEach( el -> el.render(obj, sb, strict, locale));
+        tokens.forEach( el -> el.render(obj, sb, strict, locale, zoneIdResolver));
     }
 
     private List<Token> parse(String in) {

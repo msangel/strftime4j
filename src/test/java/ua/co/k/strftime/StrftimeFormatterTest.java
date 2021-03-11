@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 import static ua.co.k.strftime.StrftimeFormatter.ofStrictPattern;
@@ -301,5 +303,25 @@ public class StrftimeFormatterTest {
         } else {
             assertEquals("2021-11-03 16:40:44 Pazifische Sommerzeit", res);
         }
+    }
+
+    @Test
+    public void testWithCustomZoneIdResolver() {
+        // works only for legacy Calendar types
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("EET"));
+
+        String res = ofStrictPattern("%Z").format(cal);
+        assertEquals("Eastern European Time", res);
+
+        res = ofStrictPattern("%Z").withZoneIdResolver(new ZoneIdResolver() {
+            @Override
+            public ZoneId toZoneId(String id) {
+                if ("EET".equalsIgnoreCase(id)) {
+                    return ZoneId.of("America/Dominica");
+                }
+                return ZoneId.of(id, ZoneId.SHORT_IDS);
+            }
+        }).format(cal);
+        assertEquals("Atlantic Standard Time", res);
     }
 }

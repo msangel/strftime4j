@@ -6,7 +6,6 @@ import ua.co.k.strftime.formatters.HybridFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static ua.co.k.strftime.formatters.HybridFormat.padWithSpaces;
@@ -127,12 +126,12 @@ class ValueToken implements Token {
     }
 
     @Override
-    public void render(Object date, StringBuilder out, boolean strict, Locale locale) {
+    public void render(Object date, StringBuilder out, boolean strict, Locale locale, ZoneIdResolver zoneIdResolver) {
         int padWidth = 0;
         if (!widthRaw.isEmpty()) {
             padWidth = Integer.parseInt(widthRaw.stream().map(Object::toString).collect(Collectors.joining()));
         }
-        String formatted = formatter.formatTo(date, padWidth, strict, locale);
+        String formatted = formatter.formatTo(date, padWidth, strict, locale, zoneIdResolver);
         if (!formatter.isCombination()) {
             switch (flagPadMode) {
                 case flagPadModeNone:

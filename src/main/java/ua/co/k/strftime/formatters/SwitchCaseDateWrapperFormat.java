@@ -1,5 +1,7 @@
 package ua.co.k.strftime.formatters;
 
+import ua.co.k.strftime.ZoneIdResolver;
+
 import java.util.Locale;
 
 class SwitchCaseDateWrapperFormat extends PatternFormat {
@@ -13,8 +15,8 @@ class SwitchCaseDateWrapperFormat extends PatternFormat {
     }
 
     @Override
-    public String formatTo(Object obj, int width, boolean strict, Locale locale) {
-        String initial = delegate.formatTo(obj, width, strict, locale);
+    public String formatTo(Object obj, int width, boolean strict, Locale locale, ZoneIdResolver zoneIdResolver) {
+        String initial = delegate.formatTo(obj, width, strict, locale, zoneIdResolver);
         if (toUpperCase) {
             initial = initial.toUpperCase(locale);
         } else {

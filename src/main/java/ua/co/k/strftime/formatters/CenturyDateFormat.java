@@ -1,5 +1,7 @@
 package ua.co.k.strftime.formatters;
 
+import ua.co.k.strftime.ZoneIdResolver;
+
 import java.util.Locale;
 
 /**
@@ -12,8 +14,8 @@ class CenturyDateFormat extends PatternFormat {
     }
 
     @Override
-    public String formatTo(Object obj, int width, boolean strict, Locale locale) {
-        String res = super.formatTo(obj, width, strict, locale);
+    public String formatTo(Object obj, int width, boolean strict, Locale locale, ZoneIdResolver zoneIdResolver) {
+        String res = super.formatTo(obj, width, strict, locale, zoneIdResolver);
         if (res.isEmpty()) {
             return res;
         }

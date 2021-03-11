@@ -13,7 +13,7 @@ public class LiteralPattern extends HybridFormat {
     }
 
     @Override
-    public String formatTo(Object obj, int width, boolean strict, Locale locale) {
+    public String formatTo(Object obj, int width, boolean strict, Locale locale, ZoneIdResolver zoneIdResolver) {
         return literal;
     }
 }
