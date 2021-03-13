@@ -7,7 +7,6 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class StrftimeFormatter {
-// todo: 1) :::z
     private final Locale locale;
     private final List<Token> tokens;
     private final boolean strict;
@@ -189,6 +188,5 @@ public class StrftimeFormatter {
     private boolean moreTokens(ParseContext parseContext) {
         return parseContext.codepoints.size() > parseContext.startOffset;
     }
-
 
 }

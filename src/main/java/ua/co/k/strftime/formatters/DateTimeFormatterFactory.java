@@ -54,7 +54,7 @@ public class DateTimeFormatterFactory {
         translate.put('X', new PatternFormat("HH:mm:ss", true));
         translate.put('y', new PatternFormat("yy", false));
         translate.put('Y', new PatternFormat("yyyy", false));
-        translate.put('z', new PatternFormat("Z", false));
+        translate.put('z', new ZoneOffsetFormat());
         translate.put('Z', new PatternFormat("zzzz", false));
         translate.put('%', new LiteralPattern("%"));
     }
@@ -74,4 +74,11 @@ public class DateTimeFormatterFactory {
         translate.put(conversion, newFormat);
     }
 
+    public boolean needZoneFormatWithColumns(HybridFormat targetFormatter, int zoneColumns) {
+        return (targetFormatter instanceof ZoneOffsetFormat) && (zoneColumns > 0);
+    }
+
+    public HybridFormat zoneFormatWithColumns(int zoneColumns) {
+        return new ZoneOffsetFormat(zoneColumns);
+    }
 }

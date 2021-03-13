@@ -22,6 +22,9 @@ class FromTemporalFieldWithPaddingFormat extends FromTemporalFieldFormat {
     @Override
     protected String doFormat(Object obj, int width, boolean strict, Locale locale) {
         String res = super.doFormat(obj, width, strict, locale);
+        if (res.isEmpty()) {
+            return res;
+        }
         return HybridFormat.padLeft(res, padding.count, padding.symbol);
     }
 }

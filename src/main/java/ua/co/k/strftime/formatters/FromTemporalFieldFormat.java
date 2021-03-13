@@ -16,7 +16,7 @@ class FromTemporalFieldFormat extends HybridFormat {
     protected String doFormat(Object obj, int width, boolean strict, Locale locale) {
         if (!(obj instanceof TemporalAccessor)) {
             if (strict) {
-                throw new UnsupportedOperationException("Unable to get seconds from unknown type variable: " + obj.getClass());
+                throw invalidType(obj);
             } else {
                 return "";
             }
@@ -34,5 +34,9 @@ class FromTemporalFieldFormat extends HybridFormat {
             return null;
         }
         return obj.getLong(field);
+    }
+
+    public static UnsupportedOperationException invalidType(Object obj){
+        return new UnsupportedOperationException("Unable to get temporal field from unknown type variable: " + obj.getClass());
     }
 }

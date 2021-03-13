@@ -7,7 +7,7 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Locale;
 
-public class WeeksInYearFormat extends HybridFormat {
+class WeeksInYearFormat extends HybridFormat {
     private final DayOfWeek firstDayOfWeek;
     private final DayOfWeek mustInclude;
     private final boolean preFirstAsZero;

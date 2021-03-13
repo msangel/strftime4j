@@ -17,7 +17,7 @@ class ValueToken implements Token {
     private static final DateTimeFormatterFactory factory = new DateTimeFormatterFactory();
 
     final static List<Integer> flags = new ArrayList<>(6);
-    {
+    static {
         flags.add((int) '-'); // -  don't pad a numerical output.
         flags.add((int) '_'); // _  use spaces for padding.
         flags.add((int) '0'); // 0  use zeros for padding.
@@ -107,6 +107,9 @@ class ValueToken implements Token {
         if (codepoint != 'z' && zoneColumns > 0) {
             return false;
         }
+        if (codepoint == 'z' && zoneColumns > 2) {
+            return false;
+        }
         conversion = codepoint;
         HybridFormat targetFormatter = factory.getFormatter(codepoint);
         if (targetFormatter == null) {
@@ -120,6 +123,10 @@ class ValueToken implements Token {
                 return false;
             }
         }
+        if (factory.needZoneFormatWithColumns(targetFormatter, zoneColumns)) {
+            targetFormatter = factory.zoneFormatWithColumns(zoneColumns);
+        }
+
         this.formatter = targetFormatter;
 
         return true;
