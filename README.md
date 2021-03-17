@@ -8,6 +8,18 @@ The Ruby's implementation was taken as an example spec(it also follows C convent
 [![Build Status](https://travis-ci.com/msangel/strftime4j.svg?branch=master)](https://travis-ci.com/msangel/strftime4j)
 [![Coverage Status](https://coveralls.io/repos/github/msangel/strftime4j/badge.svg?branch=master)](https://coveralls.io/github/msangel/strftime4j?branch=master)
 
+## Installing
+Available in maven central:
+```xml
+<dependency>
+    <groupId>ua.co.k</groupId>
+    <artifactId>strftime4j</artifactId>
+    <version>1.0.3</version>
+</dependency>
+```
+Or gradle:
+`ua.co.k:strftime4j:+`
+
 ## Usage example:
 ```java
 // strict mode allow to ensure that the string will be formatted as expected:
