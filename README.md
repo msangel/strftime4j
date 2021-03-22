@@ -6,7 +6,7 @@ Support all the standard syntax of `strftime` function in C.
 The Ruby's implementation was taken as an example spec(it also follows C conventions).
 
 [![Build Status](https://travis-ci.com/msangel/strftime4j.svg?branch=master)](https://travis-ci.com/msangel/strftime4j)
-[![Coverage Status](https://coveralls.io/repos/github/msangel/strftime4j/badge.svg?branch=master)](https://coveralls.io/github/msangel/strftime4j?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/msangel/strftime4j/badge.svg?branch=master)](https://coveralls.io/github/msangel/strftime4j?branch=master) [![Maven Central](https://img.shields.io/maven-central/v/ua.co.k/strftime4j.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22ua.co.k%22%20AND%20a:%22strftime4j%22)
 
 ## Installing
 Available in maven central:
