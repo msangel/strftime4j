@@ -319,7 +319,7 @@ public class StrftimeFormatterTest {
 
         String res = ofStrictPattern("%Z").format(cal);
         
-        if (TimeZone.getDefault().inDaylightTime( new Date() )) {
+        if (TimeZone.getTimeZone("EET").inDaylightTime( new Date() )) {
             assertEquals("Eastern European Summer Time", res);
         } else {
             assertEquals("Eastern European Time", res);
