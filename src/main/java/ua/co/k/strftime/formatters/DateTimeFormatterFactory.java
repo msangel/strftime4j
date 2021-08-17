@@ -30,7 +30,7 @@ public class DateTimeFormatterFactory {
         translate.put('I', new PatternFormat("hh", false));
         translate.put('j', new FromTemporalFieldWithPaddingFormat(ChronoField.DAY_OF_YEAR, new Padding('0', 3)));
         translate.put('k', new FromTemporalFieldWithPaddingFormat(ChronoField.HOUR_OF_DAY, new Padding(' ', 2)));
-        translate.put('l', new FromTemporalFieldWithPaddingFormat(ChronoField.HOUR_OF_AMPM, new Padding(' ', 2)));
+        translate.put('l', new FromTemporalFieldWithPaddingFormat(ChronoField.CLOCK_HOUR_OF_AMPM, new Padding(' ', 2)));
         translate.put('L', new FromTemporalFieldWithPaddingFormat(ChronoField.MILLI_OF_SECOND, new Padding('0', 3)));
         translate.put('m', new PatternFormat("MM", false));
         translate.put('M', new PatternFormat("mm", false));

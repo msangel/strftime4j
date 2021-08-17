@@ -7,6 +7,7 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -248,7 +249,13 @@ public class StrftimeFormatterTest {
         for(String[] sample: data) {
             assertEquals("test for pattern: " + sample[0], sample[1], ofStrictPattern(sample[0]).format(t));
         }
-
+        data = new String[][]{
+                {"2000-01-01T00:00:00Z", "%l", "12"},
+                {"2000-01-01T01:00:00Z", "%l", " 1"}
+        };
+        for(String[] sample: data) {
+            assertEquals("test for pattern: " + sample[1] + " with date: " + sample[0], sample[2], ofStrictPattern(sample[1]).format(ZonedDateTime.parse(sample[0])));
+        }
     }
 
     @Test
@@ -311,7 +318,12 @@ public class StrftimeFormatterTest {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("EET"));
 
         String res = ofStrictPattern("%Z").format(cal);
-        assertEquals("Eastern European Time", res);
+        
+        if (TimeZone.getDefault().inDaylightTime( new Date() )) {
+            assertEquals("Eastern European Summer Time", res);
+        } else {
+            assertEquals("Eastern European Time", res);
+        }
 
         res = ofStrictPattern("%Z").withZoneIdResolver(new ZoneIdResolver() {
             @Override
