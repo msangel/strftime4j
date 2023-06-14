@@ -73,7 +73,6 @@ Here's a list of some improvements, I'd like to implement here at some future:
 * Instead of `PatternFormat` create a new kind of `HybridFormat` that will work with conversion combinations and will delegate its parts rendering to known conversions.
 * Expose method for short timezone names aliases mapping, so end-user be able to override short timezone names with own mapping.
 * Keep codepoints list in `TextToken` as sublist from the input(it is immutable anyway). Less memory will be used.
-* Made a version with https://www.threeten.org/threetenbp/ for pre-8 java versions
 
 ## License
 Standard MIT license.
