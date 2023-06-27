@@ -1,14 +1,16 @@
 package ua.co.k.strftime.formatters;
 
-import org.junit.Test;
-import ua.co.k.strftime.StrftimeFormatter;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static ua.co.k.strftime.StrftimeFormatter.ofSafePattern;
+import static ua.co.k.strftime.StrftimeFormatter.ofStrictPattern;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 
-import static org.junit.Assert.*;
-import static ua.co.k.strftime.StrftimeFormatter.*;
+import org.junit.Test;
 
 public class ZoneOffsetFormatTest {
     @Test

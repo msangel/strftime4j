@@ -12,6 +12,7 @@ class PatternFormat extends HybridFormat {
         this.pattern = pattern;
     }
 
+    @Override
     protected String doFormat(Object obj, int padWidth, boolean strict, Locale locale) {
         TemporalAccessor temporalAccessor = (TemporalAccessor) obj;
         String res;

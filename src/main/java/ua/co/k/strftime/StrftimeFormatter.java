@@ -42,6 +42,7 @@ public class StrftimeFormatter {
         return new StrftimeFormatter(pattern, locale, true, ZoneIdResolver.DEFAULT);
     }
 
+    @SuppressWarnings("hiding")
     public StrftimeFormatter withLocale(Locale locale) {
         if (this.locale.equals(locale)) {
             return this;

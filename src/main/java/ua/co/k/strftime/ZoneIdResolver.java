@@ -4,6 +4,7 @@ import java.time.ZoneId;
 
 public abstract class ZoneIdResolver {
     public static final ZoneIdResolver DEFAULT = new ZoneIdResolver() {
+        @Override
         public ZoneId toZoneId(String id) {
             if (id.length() == 3) {
                 if ("EST".equals(id))

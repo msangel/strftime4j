@@ -1,16 +1,16 @@
 package ua.co.k.strftime.formatters;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import ua.co.k.strftime.StrftimeFormatter;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import ua.co.k.strftime.StrftimeFormatter;
 
 /**
  * %k

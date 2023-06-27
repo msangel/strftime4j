@@ -19,7 +19,6 @@ class WeeksInYearFormat extends HybridFormat {
         this.preFirstAsZero = preFirstAsZero;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected String doFormat(Object obj, int padWidth, boolean strict, Locale locale) {
         if (!(obj instanceof Temporal)) {
@@ -61,7 +60,8 @@ class WeeksInYearFormat extends HybridFormat {
         return startOfFirstWeekInMonth;
     }
 
-    private<T extends Comparable & Temporal> T cast(Object obj) {
+    @SuppressWarnings("unchecked")
+    private<T extends Comparable<?> & Temporal> T cast(Object obj) {
         return (T) obj;
     }
 }
