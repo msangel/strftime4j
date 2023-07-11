@@ -14,7 +14,7 @@ Available in maven central:
 <dependency>
     <groupId>ua.co.k</groupId>
     <artifactId>strftime4j</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 </dependency>
 ```
 Or gradle:
