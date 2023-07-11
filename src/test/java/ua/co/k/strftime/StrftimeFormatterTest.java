@@ -349,4 +349,5 @@ public class StrftimeFormatterTest {
             Assert.fail("expected NPE");
         }
     }
+
 }
