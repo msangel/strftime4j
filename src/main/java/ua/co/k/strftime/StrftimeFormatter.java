@@ -4,6 +4,7 @@ package ua.co.k.strftime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class StrftimeFormatter {
@@ -13,6 +14,7 @@ public class StrftimeFormatter {
     private final ZoneIdResolver zoneIdResolver;
 
     public StrftimeFormatter(String pattern, Locale locale, boolean strict, ZoneIdResolver zoneIdResolver) {
+        Objects.requireNonNull(locale);
         this.locale = locale;
         this.strict = strict;
         this.tokens = parse(pattern);
@@ -20,6 +22,7 @@ public class StrftimeFormatter {
     }
 
     StrftimeFormatter(List<Token> tokens, Locale locale, boolean strict, ZoneIdResolver zoneIdResolver) {
+        Objects.requireNonNull(locale);
         this.locale = locale;
         this.tokens = tokens;
         this.strict = strict;

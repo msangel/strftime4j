@@ -1,5 +1,6 @@
 package ua.co.k.strftime;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -335,5 +336,17 @@ public class StrftimeFormatterTest {
             }
         }).format(cal);
         assertEquals("Atlantic Standard Time", res);
+    }
+
+    @Test
+    public void testLocaleNonEmpty() {
+        try {
+            ofStrictPattern("%c").withLocale(null).format(new Date());
+            Assert.fail("expected NPE");
+        } catch (NullPointerException e) {
+            // expected
+        } catch (Throwable e){
+            Assert.fail("expected NPE");
+        }
     }
 }
