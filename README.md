@@ -6,7 +6,7 @@ Support all the standard syntax of `strftime` function in C.
 The Ruby's implementation was taken as an example spec(it also follows C conventions).
 
 [![Build Status](https://travis-ci.com/msangel/strftime4j.svg?branch=master)](https://travis-ci.com/msangel/strftime4j)
-[![Coverage Status](https://coveralls.io/repos/github/msangel/strftime4j/badge.svg?branch=master)](https://coveralls.io/github/msangel/strftime4j?branch=master) [![Maven Central](https://img.shields.io/maven-central/v/ua.co.k/strftime4j.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22ua.co.k%22%20AND%20a:%22strftime4j%22)
+[![Coverage Status](https://coveralls.io/repos/github/msangel/strftime4j/badge.svg?branch=master)](https://coveralls.io/github/msangel/strftime4j?branch=master) [![Maven Central](https://img.shields.io/maven-central/v/ua.co.k/strftime4j.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=ua.co.k%3Astrftime4j)
 
 ## Installing
 Available in maven central:
@@ -73,6 +73,8 @@ Here's a list of some improvements, I'd like to implement here at some future:
 * Instead of `PatternFormat` create a new kind of `HybridFormat` that will work with conversion combinations and will delegate its parts rendering to known conversions.
 * Expose method for short timezone names aliases mapping, so end-user be able to override short timezone names with own mapping.
 * Keep codepoints list in `TextToken` as sublist from the input(it is immutable anyway). Less memory will be used.
+## Publishing
+On wiki page: https://github.com/msangel/strftime4j/wiki/Publish
 
 ## License
 Standard MIT license.
